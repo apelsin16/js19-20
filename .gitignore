@@ -1,6 +1,7 @@
 #OS junk files
 [Tt]humbs.db
 *.DS_Store
+
 #Visual Studio files
 *.[Oo]bj
 *.user
@@ -29,10 +30,13 @@ obj/
 [Dd]ebug*/
 [Rr]elease*/
 Ankh.NoLoad
+
 # WebStorm files
 .idea/
+
 #Node
 node_modules/
+
 #Various images
 /*.png
 /*.jpg
