@@ -1,58 +1,126 @@
-var gulp = require('gulp');
-var concat = require('gulp-concat');
-var sass = require('gulp-ruby-sass');
-var autoPrefixer = require('gulp-autoprefixer');
-var cleanCSS = require('gulp-clean-css');
-var rename = require('gulp-rename');
-var sourceMaps = require('gulp-sourcemaps');
-var server = require('gulp-server-livereload');
-var imageMin = require('gulp-imagemin');
-var cache = require('gulp-cache');
+'use strict';
 
-gulp.task('sass', function() {
-    return sass('src/components/main.scss', { sourcemap: true, style: 'compact' })
-        .on('error', sass.logError)
-        .pipe(sourceMaps.init({loadMaps: true}))
-        .pipe(autoPrefixer('last 2 version', 'safari 5', 'ie 8', 'ie 9', 'opera 12.1'))
-        .pipe(rename('app.css'))
-        .pipe(cleanCSS())
-        .pipe(sourceMaps.write())
-        .pipe(gulp.dest('dist/css'));
+var gulp = require('gulp'),
+    watch = require('gulp-watch'),
+    prefixer = require('gulp-autoprefixer'),
+    uglify = require('gulp-uglify'),
+    sass = require('gulp-sass'),
+    sourcemaps = require('gulp-sourcemaps'),
+    rigger = require('gulp-rigger'),
+    cssmin = require('gulp-clean-css'),
+    //imagemin = require('gulp-imagemin'),
+    //pngquant = require('imagemin-pngquant'),
+    rimraf = require('rimraf'),
+    browserSync = require("browser-sync"),
+    BroccoliImagemin = require('broccoli-imagemin'),
+
+    reload = browserSync.reload;
+
+var path = {
+  build: {
+    html: 'build/',
+        js: 'build/js/',
+        css: 'build/css/',
+        img: 'build/img/',
+        fonts: 'build/fonts/'
+  },
+  src: { //Пути откуда брать исходники
+        html: 'src/*.html', //Синтаксис src/*.html говорит gulp что мы хотим взять все файлы с расширением .html
+        js: 'src/js/*.js',//В стилях и скриптах нам понадобятся только main файлы
+        style: 'src/style/*.scss',
+        img: 'src/img/**/*.*', //Синтаксис img/**/*.* означает - взять все файлы всех расширений из папки и из вложенных каталогов
+        fonts: 'src/fonts/**/*.*'
+    },
+    watch: { //Тут мы укажем, за изменением каких файлов мы хотим наблюдать
+        html: 'src/**/*.html',
+        js: 'src/js/**/*.js',
+        style: 'src/style/**/*.scss',
+        img: 'src/img/**/*.*',
+        fonts: 'src/fonts/**/*.*'
+    },
+    clean: './build'
+    };
+
+    var config = {
+    server: {
+        baseDir: "./build"
+    },
+    tunnel: true,
+    host: 'localhost',
+    port: 9000,
+    logPrefix: "Frontend"
+};
+
+gulp.task('html:build', function () {
+    gulp.src(path.src.html)
+        .pipe(rigger())
+        .pipe(gulp.dest(path.build.html))
+        .pipe(reload({stream: true}));
 });
 
-gulp.task('pages', function(){
-    return gulp.src('src/*.html')
-        .pipe(gulp.dest('dist'))
+gulp.task('js:build', function () {
+    gulp.src(path.src.js)
+        .pipe(rigger())
+        .pipe(sourcemaps.init())
+        .pipe(uglify())
+        .pipe(sourcemaps.write())
+        .pipe(gulp.dest(path.build.js))
+        .pipe(reload({stream: true}));
 });
 
-gulp.task('fonts', function(){
-    return gulp.src('src/theme/fonts/*')
-        .pipe(gulp.dest('dist/css/fonts'))
+gulp.task('style:build', function () {
+    gulp.src(path.src.style)
+        .pipe(sourcemaps.init())
+        .pipe(sass())
+        .pipe(prefixer())
+        .pipe(cssmin())
+        .pipe(sourcemaps.write())
+        .pipe(gulp.dest(path.build.css))
+        .pipe(reload({stream: true}));
 });
 
-gulp.task('images', function(){
-    return gulp.src('src/theme/images/*/*')
-        .pipe(gulp.dest('dist/images/'))
+gulp.task('image:build', function () {
+   gulp.src(path.src.img)
+            .pipe(gulp.dest(path.build.img));
 });
 
-gulp.task('webserver', function() {
-    gulp.src('dist')
-        .pipe(server({
-            livereload: {
-                enable: true,
-                filter: function(filePath, cb) {
-                    cb( !(/.DS_Store/.test(filePath)) );
-                }
-            },
-            directoryListing: false,
-            open: true,
-            log: 'info',
-            defaultFile: 'index.html'
-        }));
+gulp.task('fonts:build', function() {
+    gulp.src(path.src.fonts)
+        .pipe(gulp.dest(path.build.fonts));
 });
 
-gulp.task('default', function() {
-    gulp.start('pages', 'sass', 'images', 'fonts', 'webserver');
-    gulp.watch('src/*.html', ['pages']);
-    gulp.watch('src/components/**/*.scss', ['sass']);
+gulp.task('build', [
+    'html:build',
+    'js:build',
+    'style:build',
+    'fonts:build',
+    'image:build'
+]);
+
+gulp.task('watch', function(){
+    watch([path.watch.html], function(event, cb) {
+        gulp.start('html:build');
+    });
+    watch([path.watch.style], function(event, cb) {
+        gulp.start('style:build');
+    });
+    watch([path.watch.js], function(event, cb) {
+        gulp.start('js:build');
+    });
+    watch([path.watch.img], function(event, cb) {
+        gulp.start('image:build');
+    });
+    watch([path.watch.fonts], function(event, cb) {
+        gulp.start('fonts:build');
+    });
 });
+
+gulp.task('webserver', function () {
+    browserSync(config);
+});
+
+gulp.task('clean', function (cb) {
+    rimraf(path.clean, cb);
+});
+
+gulp.task('default', ['build', 'webserver', 'watch']);

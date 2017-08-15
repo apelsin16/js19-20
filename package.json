@@ -1,32 +1,40 @@
 {
-  "name": "gulp",
+  "name": "homework",
   "version": "1.0.0",
-  "description": "",
-  "main": "gulp.js",
+  "main": "index.js",
   "scripts": {
-    "test": "scss-lint src/components/* --config lint.yml"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/neomulik/Gulp.git"
+    "url": "git+https://github.com/apelsin16/js17-18.git"
   },
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/neomulik/Gulp/issues"
+    "url": "https://github.com/apelsin16/js17-18/issues"
   },
-  "homepage": "https://github.com/neomulik/Gulp#readme",
+  "homepage": "https://github.com/apelsin16/js17-18#readme",
   "devDependencies": {
-    "gulp": "^3.9.0",
-    "gulp-autoprefixer": "^3.1.0",
-    "gulp-browserify": "^0.5.1",
-    "gulp-cache": "^0.4.0",
-    "gulp-concat": "^2.6.0",
-    "gulp-imagemin": "^2.4.0",
-    "gulp-clean-css": "^2.0.7",
-    "gulp-rename": "^1.2.2",
-    "gulp-ruby-sass": "^2.0.5",
-    "gulp-server-livereload": "^1.5.4",
-    "gulp-sourcemaps": "^1.6.0"
-  }
+    "browser-sync": "^2.18.13",
+    "font-awesome": "latest",
+    "gulp": "^3.9.1",
+    "gulp-autoprefixer": "^4.0.0",
+    "gulp-clean-css": "^3.7.0",
+    "gulp-load-plugins": "^1.5.0",
+    "gulp-rigger": "^0.5.8",
+    "gulp-sass": "^3.1.0",
+    "gulp-uglify": "^3.0.0",
+    "gulp-watch": "^4.3.11"
+  },
+  "dependencies": {
+    "broccoli-imagemin": "^1.0.1",
+    "gulp": "^3.9.1",
+    "gulp-imagemin": "^3.3.0",
+    "gulp-sourcemaps": "^2.6.0",
+    "imagemin-pngquant": "^5.0.1",
+    "rimraf": "^2.6.1",
+    "rm": "^0.1.8"
+  },
+  "description": ""
 }
