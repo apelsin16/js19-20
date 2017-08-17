@@ -1,5 +1,7 @@
 'use strict';
 
+
+
 var acc = document.getElementsByClassName('accordion');
 var i;
 
@@ -21,13 +23,9 @@ for (i = 0; i < acc.length; i++) {
 
   var $links = $('.pagination-link');
 
-  console.log($links);
-
- var $imgs = $('.img'),
+  var $imgs = $('.img'),
    imgID,
    currentLink;
-
-
 
   $imgs.hide().first().show();
   $links.first().addClass('link-active');
@@ -42,9 +40,64 @@ for (i = 0; i < acc.length; i++) {
 
     imgID = currentLink.attr('href');
 
-    console.log(imgID);
     $imgs.hide();
     $(imgID).show();
   });
+
+
+// $.ajax({
+//     url: "data.json"
+//   }).done(function (data) {
+//   // var json = JSON.parse(data);
+//   console.log(data);
+// });
+// Задача 2 - 1
+$.getJSON('data.json', {}, function (json) {
+
+   var arrSkills = _.chain(json)
+     .map('skills')
+     .flattenDeep()
+     .uniq()
+     .sortBy()
+     .value();
+   console.log( 'Задача 2 - 1', arrSkills);
+
+});
+
+// Задача 2 - 2
+
+$.getJSON('data.json', {}, function (json) {
+
+  var arrName = _.sortBy(json, function (item) {
+    return item.friends;
+  });
+  var arrNameSorted = _.map(arrName, function (item) {
+    return item.name;
+  })
+  console.log( 'Задача 2 - 2', arrNameSorted);
+
+});
+
+// Задача 2 - 3
+
+$.getJSON('data.json', {}, function (json) {
+
+  var arrFriends = _.map(json, function (item) {
+    return item.friends;
+  });
+
+   var friendsName = _.map(_.flatMapDeep(arrFriends), function (item) {
+     return item.name;
+   });
+
+  var arrFriendSorted = _.chain(friendsName)
+    .map()
+    .uniq()
+    .value();
+  console.log('Задача 2 - 3', arrFriendSorted);
+
+});
+
+
 
 
