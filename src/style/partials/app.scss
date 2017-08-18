@@ -4,8 +4,6 @@
 }
 
 .header {
-
-
   margin: 0 auto;
 }
 
@@ -28,12 +26,19 @@
   margin-right: 10px;
   border: 1px solid #000;
   color: #999;
+  padding-right: 30px;
 }
 
 .form-img {
   width: 16px;
   height: 16px;
   margin-left: -40px;
+  opacity: 0.5;
+}
+
+.icon {
+ color: #fff;
+ margin-left: -40px;
   opacity: 0.5;
 }
 
@@ -44,55 +49,77 @@
 
 }
 
-.communitys-list__item{
+.communitys-list__item {
 list-style: none;
-margin: 15px;
-  height: 16px;
-  width: 16px;
+
+
 }
 
-.communitys-list__item:first-child {
+.communitys-list__link {
+  display: block;
+  height: 16px;
+  width: 16px;
+  margin: 15px;
+}
+
+.communitys-list__link:first-child {
   background-image: url('../img/facebook-logo.svg');
   opacity: 0.4;
 }
 
-.communitys-list__item:first-child:hover {
+.communitys-list__link:first-child:hover {
   background-image: url('../img/facebook.svg');
 }
 
-.communitys-list__item:nth-child(2) {
+.communitys-list__link2 {
+  display: block;
+  height: 16px;
+  width: 16px;
+  margin: 15px;
   background-image: url('../img/twitter-logo-silhouette.svg');
   opacity: 0.4;
 }
 
-.communitys-list__item:nth-child(2):hover {
-  background-image: url('../img/twitter.svg');
+.communitys-list__link2:hover {
+    background-image: url('../img/twitter.svg');
 }
 
-.communitys-list__item:nth-child(3) {
+.communitys-list__link3 {
+  display: block;
+  height: 16px;
+  width: 16px;
+  margin: 15px;
   background-image: url('../img/rss-sign.svg');
   opacity: 0.4;
 }
 
-.communitys-list__item:nth-child(3):hover {
+.communitys-list__link3:hover {
   background-image: url('../img/rss.svg');
 }
 
-.communitys-list__item:nth-child(4) {
+.communitys-list__link4 {
+  display: block;
+  height: 16px;
+  width: 16px;
+  margin: 15px;
   background-image: url('../img/icon.svg');
   opacity: 0.4;
 }
 
-.communitys-list__item:nth-child(4):hover {
+.communitys-list__link4:hover {
   background-image: url('../img/linkedin.svg');
 }
 
-.communitys-list__item:nth-child(5) {
+.communitys-list__link5 {
+  display: block;
+  height: 16px;
+  width: 16px;
+  margin: 15px;
   background-image: url('../img/big-skype-logo.svg');
   opacity: 0.4;
 }
 
-.communitys-list__item:nth-child(5):hover {
+.communitys-list__link5:hover {
   background-image: url('../img/skype.svg');
 }
 
@@ -123,6 +150,7 @@ margin: 15px;
 .content {
   //margin: 0 auto;
 
+
 }
 
 .mainphoto {
@@ -137,6 +165,10 @@ margin: 15px;
   justify-content: center;
   align-items: center;
   height: 470px;
+}
+
+.img {
+  width: 100%;
 }
 
   .pagination-link {
@@ -166,6 +198,14 @@ margin: 15px;
    color: #000;
  }
 
+.article-icon {
+  color: #f4b60d;
+  position: absolute;
+  margin-top: 5px;
+  margin-left: 10px;
+
+}
+
 .articles {
   display: flex;
   justify-content: center;
@@ -174,6 +214,7 @@ margin: 15px;
 .article {
   padding-left: 122px;
   padding-top: 40px;
+  position: relative;
 }
 
 .article:first-child::before {
@@ -195,7 +236,6 @@ margin: 15px;
   font-size: 90px;
   opacity: 0.1;
   margin-left: -100px;
-
 }
 
 .article h4 {
